@@ -1,0 +1,27 @@
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    background-color: #e5e5e5;
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.field {
+    background: #ffffff;
+    width: 30rem;
+    height: 30rem;
+    margin: auto;
+}
+
+.board {
+    margin: auto;
+    width: 15rem;
+}
+
