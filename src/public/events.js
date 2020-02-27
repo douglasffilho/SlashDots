@@ -13,10 +13,13 @@ function movePlayer(direction) {
         playerId = socket.id
     });
 
-    socket.on('moved', function(movement) {
-        renderPlayers(Object.keys(movement).map(function(playerData) {
-            return movement[playerData];
-        }));
+    socket.on('moved', function(state) {
+        var playersData = Object.keys(state).map(function(playerData) {
+            return state[playerData];
+        });
+
+        updateScenario(playersData);
+        updateBoard(playersData);
     });
 
 })();
