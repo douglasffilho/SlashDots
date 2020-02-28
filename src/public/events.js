@@ -13,12 +13,14 @@ function movePlayer(direction) {
         playerId = socket.id
     });
 
-    socket.on('moved', function(state) {
-        var playersData = Object.keys(state).map(function(playerData) {
-            return state[playerData];
+    socket.on('state', function(state) {
+        var playersData = Object.keys(state.players).map(function(playerData) {
+            return state.players[playerData];
         });
 
-        updateScenario(playersData);
+        var dotsData = state.dots;
+
+        updateScenario(playersData, dotsData);
         updateBoard(playersData);
     });
 
