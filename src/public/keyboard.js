@@ -14,8 +14,6 @@ var commands = {
 };
 
 (function() {
-    console.log('keyboard ready');
-    
     document.addEventListener('keydown', function(event) {
         var command = commands[event.key];
         var direction = command ? command : 'STAY' ;

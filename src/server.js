@@ -4,8 +4,8 @@ import path from 'path';
 import socket from 'socket.io';
 import Players from './players';
 import ejs from 'ejs';
-import cron from 'node-cron';
-import DateUtils from './date-utils';
+import Tasks from './tasks';
+import Dots from './dots';
 
 const app = express();
 const httpPort = 8081;
@@ -26,33 +26,17 @@ server.listen(httpPort, () => {
     console.log(`Server initialized on port ${httpPort}`);
 });
 
-const tasks = [];
-
 const io = socket(server);
 io.on('connection', socket => {
-    console.log(`Player ${socket.id} connected`);
     Players.create(socket.id);
 
     socket.on('move', moveData => {
         Players.move(moveData.player, moveData.direction);
-        socket.broadcast.emit('moved', Players.state());
-        socket.emit('moved', Players.state());
+
+        socket.broadcast.emit('state', { players: Players.state(), dots: Dots.state() });
+        socket.emit('state', { players: Players.state(), dots: Dots.state() });
     });
 
-    if (tasks.length < 1) {
-        tasks.push(cron.schedule("0 * * * * *", () => {
-            console.log("removing idle players");
-            Object.keys(Players.state())
-                .map(playerId => Players.state()[playerId])
-                .filter(player => {
-                    return DateUtils.dateIsBeforeNow(player.lastMovement, 30000)
-                })
-                .forEach(player => {
-                    Players.unregister(player.id);
-                    socket.broadcast.emit('moved', Players.state());
-                    socket.emit('moved', Players.state());
-                });
-        }));
-    }
+    Tasks.start(socket);
 
 });
