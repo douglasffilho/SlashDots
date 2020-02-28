@@ -1,7 +1,7 @@
 var canvas = null;
 var PLAYER_WIDTH = 2;
 var PLAYER_HEIGHT = 1;
-var PLAYER_INITIAL_X = 28;
+var PLAYER_INITIAL_X = 15;
 var PLAYER_INITIAL_Y = 15;
 var MY_DOT_COLOR = 'green';
 var OTHERS_DOT_COLOR = 'gray';
@@ -11,7 +11,7 @@ function renderPlayer(x, y, self) {
         canvas.globalAlpha = 0.2;
     }
     canvas.fillStyle = !!self ? MY_DOT_COLOR : OTHERS_DOT_COLOR;
-    canvas.fillRect(x , y, PLAYER_WIDTH, PLAYER_HEIGHT);
+    canvas.fillRect((PLAYER_WIDTH * x), (PLAYER_HEIGHT * y), PLAYER_WIDTH, PLAYER_HEIGHT);
     canvas.globalAlpha = 1.0;
 }
 
